@@ -1,0 +1,11 @@
+body {
+    background-color: black;
+}
+
+#playable-character {
+    width: 200px;
+}
+
+canvas {
+    background-color: white;
+}
