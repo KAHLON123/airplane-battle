@@ -22,7 +22,7 @@ let planeX = 90;
 let planeY = 300;
 
 // ARRAY OF OBSTACLES
-let obstacle = [{ objectID: 'articuno', xStart: 1700, yStart: 300, yEnd: 380 }, { objectID: 'moltres', xStart: 3500, yStart: 550, yEnd: 630 }, { objectID: 'zapdos', xStart: 3000, yStart: 400, yEnd: 420 }, { objectID: 'house1', xStart: 700, yStart: 430, yEnd: 650 }];
+let obstacle = [{ objectID: 'articuno', xStart: 1700, xEnd: 1780, yStart: 300, yEnd: 380 }, { objectID: 'moltres', xStart: 3500, xEnd: 3580, yStart: 550, yEnd: 630 }, { objectID: 'zapdos', xStart: 3000, xEnd: 3080, yStart: 400, yEnd: 420 }, { objectID: 'house1', xStart: 700, xEnd: 950, yStart: 430, yEnd: 650 }];
 
 //event listener
 btn.addEventListener('click', start);
@@ -64,19 +64,22 @@ function start() {
         for (let i = 0; i < 3; i++) {
             if (obstacle[i].xStart > -80) {
                 obstacle[i].xStart -= 5;
+                obstacle[i].xEnd -= 5;
             } else {
                 obstacle[i].xStart += 9000;
+                obstacle[i].xEnd += 9000;
             }
         }
 
         // buildings
         // for (let i = 3; i < 3; i++) {
         if (obstacle[3].xStart > -250) {
-            obstacle[3].xStart -= 2
+            obstacle[3].xStart -= 2;
+            obstacle[3].xEnd -= 2;
         } else {
             obstacle[3].xStart += 15000;
+            obstacle[3].xEnd += 15000;
         }
-        // }
 
         // DRAWING
         //background
@@ -97,10 +100,14 @@ function start() {
     }
 }
 
+
 function detectCollision() {
-    const planeYEnd = planeY + 80;
+    let planeYEnd = +planeY + 80;
+    let planeXEnd = +planeX + 130;
     for (let i = 0; i < obstacle.length; i++) {
-        if (obstacle[i].yStart > planeY && obstacle[i].yEnd < planeYEnd) {
+        // contact at right, contact at top, contact at left, contact at bottom
+        //if left side of object meets right side of character OR (||)
+        if (planeXEnd > obstacle[i].xStart) {
             return true;
         } else {
             return false;
