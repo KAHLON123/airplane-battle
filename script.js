@@ -24,7 +24,7 @@ let planeY = 300;
 let b = '';
 
 // ARRAY OF OBSTACLES
-let obstacle = [{ objectID: 'articuno', xStart: 1700, xEnd: 1780, yStart: 300, yEnd: 380 }, { objectID: 'moltres', xStart: 3500, xEnd: 3580, yStart: 550, yEnd: 630 }, { objectID: 'zapdos', xStart: 3000, xEnd: 3080, yStart: 400, yEnd: 420 }, { objectID: 'house1', xStart: 700, xEnd: 950, yStart: 430, yEnd: 680 }, { objectID: 'skyscraper', xStart: 1000, xEnd: 1250, yStart: 400, yEnd: 580 }];
+let obstacle = [{ objectID: 'articuno', xStart: 1700, xEnd: 1780, yStart: 300, yEnd: 380 }, { objectID: 'moltres', xStart: 3500, xEnd: 3580, yStart: 550, yEnd: 630 }, { objectID: 'zapdos', xStart: 3000, xEnd: 3080, yStart: 400, yEnd: 420 }, { objectID: 'house1', xStart: 700, xEnd: 950, yStart: 430, yEnd: 680 }, { objectID: 'skyscraper', xStart: 2000, xEnd: 2200, yStart: 350, yEnd: 700 }];
 
 //event listener
 btn.addEventListener('click', start);
@@ -93,7 +93,7 @@ function start() {
         ctx.drawImage(moltres, obstacle[1].xStart, obstacle[1].yStart, 80, 80);
         ctx.drawImage(zapdos, obstacle[2].xStart, obstacle[2].yStart, 80, 80);
         ctx.drawImage(houseOne, obstacle[3].xStart, obstacle[3].yStart, 250, 250);
-        ctx.drawImage(skyscraper, obstacle[4].xStart, obstacle[4].yStart, 150, 250);
+        ctx.drawImage(skyscraper, obstacle[4].xStart, obstacle[4].yStart, 200, 350);
 
         requestAnimationFrame(start);
     } else {
@@ -105,6 +105,7 @@ function detectCollision() {
     let planeYEnd = +planeY + 80;
     let planeXEnd = +planeX + 130;
     for (let i = 0; i < obstacle.length; i++) {
+        console.log(i);
         // OR (||)
         if (planeX < obstacle[i].xEnd && planeXEnd > obstacle[i].xStart && planeY < obstacle[i].yEnd && planeYEnd > obstacle[i].yStart) {
             b = true;
@@ -112,5 +113,6 @@ function detectCollision() {
             b = false;
         }
     }
+    console.log(b);
     return b;
 }
