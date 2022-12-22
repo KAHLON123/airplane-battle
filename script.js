@@ -13,6 +13,10 @@ let zapdos = document.getElementById('zap-obstacle');
 let houseOne = document.getElementById('house-obstacle');
 let skyscraper = document.getElementById('skyscraper-obstacle');
 
+//background music
+let jungleGroove = new Audio('AUDIO/jungleGroove.mp3');
+let failSound = new Audio('AUDIO/fail.mp3');
+
 cnv.width = 1230;
 cnv.height = 800;
 
@@ -21,14 +25,22 @@ let background1X = 0;
 let background2X = 1230;
 let planeX = 90;
 let planeY = 300;
-let b = '';
+let song = '';
 
 // ARRAY OF OBSTACLES
-let obstacle = [{ objectID: 'articuno', xStart: 1700, xEnd: 1780, yStart: 300, yEnd: 380 }, { objectID: 'moltres', xStart: 3500, xEnd: 3580, yStart: 550, yEnd: 630 }, { objectID: 'zapdos', xStart: 3000, xEnd: 3080, yStart: 400, yEnd: 420 }, { objectID: 'house1', xStart: 700, xEnd: 950, yStart: 430, yEnd: 680 }, { objectID: 'skyscraper', xStart: 2000, xEnd: 2200, yStart: 350, yEnd: 700 }];
+let obstacle = [{ objectID: 'articuno', xStart: 1700, xEnd: 1780, yStart: 300, yEnd: 380 }, { objectID: 'moltres', xStart: 3500, xEnd: 3580, yStart: 550, yEnd: 630 }, { objectID: 'zapdos', xStart: 3000, xEnd: 3080, yStart: 400, yEnd: 480 }, { objectID: 'house1', xStart: 700, xEnd: 950, yStart: 430, yEnd: 680 }, { objectID: 'skyscraper', xStart: 2000, xEnd: 2200, yStart: 350, yEnd: 700 }];
 
 //event listener
 btn.addEventListener('click', start);
 document.addEventListener('keydown', planeMvmt);
+
+//MUUSICC
+if (song === true) {
+    jungleGroove.play;
+} else if (song === false) {
+    failSound.play;
+    console.log('yo');
+}
 
 function planeMvmt(e) {
     //W
@@ -47,10 +59,11 @@ function planeMvmt(e) {
     }
 }
 
-// background photo
 function start() {
     //if nothing has been hit, then run normal game code
     if (detectCollision() === false) {
+        //play background music
+        song = true;
         // LOGIC
         background1X -= 2;
         if (background1X < -1230) {
@@ -97,6 +110,7 @@ function start() {
 
         requestAnimationFrame(start);
     } else {
+        song = false;
         console.log('hit');
     }
 }
@@ -105,14 +119,10 @@ function detectCollision() {
     let planeYEnd = +planeY + 80;
     let planeXEnd = +planeX + 130;
     for (let i = 0; i < obstacle.length; i++) {
-        console.log(i);
         // OR (||)
         if (planeX < obstacle[i].xEnd && planeXEnd > obstacle[i].xStart && planeY < obstacle[i].yEnd && planeYEnd > obstacle[i].yStart) {
-            b = true;
-        } else {
-            b = false;
+            return true;
         }
     }
-    console.log(b);
-    return b;
+    return false;
 }
