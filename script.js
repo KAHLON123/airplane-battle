@@ -12,6 +12,7 @@ let moltres = document.getElementById('mol-obstacle');
 let zapdos = document.getElementById('zap-obstacle');
 let houseOne = document.getElementById('house-obstacle');
 let skyscraper = document.getElementById('skyscraper-obstacle');
+let outputEl = document.getElementById('span');
 
 //background music
 let jungleGroove = new Audio('AUDIO/jungleGroove.mp3');
@@ -27,6 +28,9 @@ let planeX = 90;
 let planeY = 300;
 let song = '';
 
+// USER PROFILES
+let attempts = [];
+
 // ARRAY OF OBSTACLES
 let obstacle = [{ objectID: 'articuno', xStart: 1700, xEnd: 1780, yStart: 300, yEnd: 380 }, { objectID: 'moltres', xStart: 3500, xEnd: 3580, yStart: 550, yEnd: 630 }, { objectID: 'zapdos', xStart: 3000, xEnd: 3080, yStart: 400, yEnd: 480 }, { objectID: 'house1', xStart: 700, xEnd: 950, yStart: 430, yEnd: 680 }, { objectID: 'skyscraper', xStart: 2000, xEnd: 2200, yStart: 350, yEnd: 700 }];
 
@@ -34,13 +38,18 @@ let obstacle = [{ objectID: 'articuno', xStart: 1700, xEnd: 1780, yStart: 300, y
 btn.addEventListener('click', start);
 document.addEventListener('keydown', planeMvmt);
 
-//MUUSICC
-if (song === true) {
-    jungleGroove.play;
-} else if (song === false) {
-    failSound.play;
-    console.log('yo');
-}
+// // add one point to the score for every 5 seconds the player survives. Clear the score for every replay, but keep a record of past attempts.
+// function profile(condition) {
+//     score = 0;
+//     const scoreInterval = setInterval(profile, 5000);
+//     let score = '';
+//     if (condition === true) {
+//         score++;
+//     } else {
+//         clearInterval(scoreInterval);
+//     }
+//     outputEl.innerHTML = score;
+// }
 
 function planeMvmt(e) {
     //W
@@ -61,9 +70,10 @@ function planeMvmt(e) {
 
 function start() {
     //if nothing has been hit, then run normal game code
+    jungleGroove.play();
+    // profile(true);
     if (detectCollision() === false) {
         //play background music
-        song = true;
         // LOGIC
         background1X -= 2;
         if (background1X < -1230) {
@@ -110,7 +120,9 @@ function start() {
 
         requestAnimationFrame(start);
     } else {
-        song = false;
+        saveScore();
+        // profile(false);
+        failSound.play();
         console.log('hit');
     }
 }
@@ -121,8 +133,14 @@ function detectCollision() {
     for (let i = 0; i < obstacle.length; i++) {
         // OR (||)
         if (planeX < obstacle[i].xEnd && planeXEnd > obstacle[i].xStart && planeY < obstacle[i].yEnd && planeYEnd > obstacle[i].yStart) {
+            song = true;
             return true;
         }
     }
     return false;
+}
+
+//this function saves the current score to the attempts array
+function saveScore() {
+
 }
