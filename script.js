@@ -38,19 +38,6 @@ let obstacle = [{ objectID: 'articuno', xStart: 1700, xEnd: 1780, yStart: 300, y
 btn.addEventListener('click', start);
 document.addEventListener('keydown', planeMvmt);
 
-// // add one point to the score for every 5 seconds the player survives. Clear the score for every replay, but keep a record of past attempts.
-// function profile(condition) {
-//     score = 0;
-//     const scoreInterval = setInterval(profile, 5000);
-//     let score = '';
-//     if (condition === true) {
-//         score++;
-//     } else {
-//         clearInterval(scoreInterval);
-//     }
-//     outputEl.innerHTML = score;
-// }
-
 function planeMvmt(e) {
     //W
     if (e.keyCode === 87) {
@@ -120,7 +107,6 @@ function start() {
 
         requestAnimationFrame(start);
     } else {
-        saveScore();
         // profile(false);
         failSound.play();
         console.log('hit');
@@ -138,9 +124,4 @@ function detectCollision() {
         }
     }
     return false;
-}
-
-//this function saves the current score to the attempts array
-function saveScore() {
-
 }
